@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f8fc">
+  <meta name="description" content="Type Arena is a two-mode typing challenge built with HTML, CSS and JavaScript.">
+  <title>Type Arena | Typing Challenge Game</title>
+
+  <!-- Keep CSS separate from HTML for easy editing. -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Load shared logic, game modes, then the main application. -->
+  <script src="js/gameState.js" defer></script>
+  <script src="js/bubbles.js" defer></script>
+  <script src="js/keymagnet.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+    <!-- =============== HEADER =============== -->
+    <header class="topbar">
+      <button id="brandHome" class="brand" type="button" aria-label="Go to home screen">
+        <span class="brand-symbol" aria-hidden="true">T<span class="brand-cursor"></span></span>
+        <span>Type<span class="brand-highlight">Arena</span></span>
+      </button>
+
+      <div class="topbar-right">
+        <span class="topbar-caption"><span class="live-dot"></span> Keyboard skills lab</span>
+        <button id="rulesBtn" class="topbar-link" type="button">? &nbsp; How to play</button>
+      </div>
+    </header>
+
+    <main id="mainContent">
+      <!-- =============== HOME SCREEN =============== -->
+      <section id="homeScreen" class="screen home-screen" aria-labelledby="homeHeading">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">Practice. Improve. Repeat.</span>
+            <h1 id="homeHeading">Make every <span class="headline-gradient">keystroke</span> count.</h1>
+            <p>Improve your typing speed and accuracy through two interactive challenges.
+              Choose your difficulty, pick a mode, and start playing.</p>
+            <div class="hero-points">
+              <span><span class="point-icon">✓</span> Two game modes</span>
+              <span><span class="point-icon">✓</span> Live feedback</span>
+              <span><span class="point-icon">✓</span> Instant results</span>
+            </div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="hero-orbit hero-orbit--outer"></div>
+            <div class="hero-orbit hero-orbit--inner"></div>
+            <div class="hero-key"><span class="hero-key-symbol">⌨</span><span>Ready to type?</span></div>
+            <span class="hero-float hero-float--one">A</span>
+            <span class="hero-float hero-float--two">S</span>
+            <span class="hero-float hero-float--three">K</span>
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">GET STARTED</span>
+            <h2>Choose your challenge</h2>
+          </div>
+          <p class="section-heading-meta">Two games. Three difficulty levels.</p>
+        </div>
+
+        <!-- Difficulty selection changes gameplay in BOTH modes. -->
+        <div class="difficulty-bar" aria-labelledby="difficultyTitle">
+          <div class="difficulty-text">
+            <div>
+              <strong id="difficultyTitle">Difficulty</strong>
+              <small>Choose a level before starting.</small>
+            </div>
+          </div>
+          <div id="difficultyPicker" class="segment-control" role="group" aria-label="Select difficulty">
+            <button class="difficulty-option is-selected" data-difficulty="easy" aria-pressed="true" type="button">Easy</button>
+            <button class="difficulty-option" data-difficulty="medium" aria-pressed="false" type="button">Medium</button>
+            <button class="difficulty-option" data-difficulty="hard" aria-pressed="false" type="button">Hard</button>
+          </div>
+          <span id="difficultyDescription" class="difficulty-description">Relaxed pace · build confidence</span>
+        </div>
+
+        <div class="mode-grid">
+          <!-- Mode A -->
+          <article class="mode-card mode-card--bubbles">
+            <div class="card-top">
+              <span class="mode-tag">MODE 01</span>
+              <span class="card-top-right">SPEED &amp; REACTION</span>
+            </div>
+            <div class="mode-visual bubble-preview" aria-hidden="true">
+              <span class="preview-bubble preview-bubble--one">A</span>
+              <span class="preview-bubble preview-bubble--two">S</span>
+              <span class="preview-bubble preview-bubble--three">D</span>
+              <span class="preview-bubble preview-bubble--four">F</span>
+            </div>
+            <div class="mode-card-content">
+              <div class="mode-title-row"><h3>Bubbles</h3><span class="mode-symbol">↗</span></div>
+              <p>Type the letters inside floating bubbles before they reach the top.</p>
+              <div class="mode-chips"><span>Moving letters</span><span>Miss limit</span><span>Speed levels</span></div>
+              <button id="startBubbles" class="mode-action mode-action--cyan" type="button">Play Bubbles <span aria-hidden="true">→</span></button>
+            </div>
+          </article>
+
+          <!-- Mode B -->
+          <article class="mode-card mode-card--magnet">
+            <div class="card-top">
+              <span class="mode-tag">MODE 02</span>
+              <span class="card-top-right">ACCURACY &amp; FOCUS</span>
+            </div>
+            <div class="mode-visual magnet-preview" aria-hidden="true">
+              <span class="preview-key preview-key--small">A</span>
+              <span class="preview-key preview-key--active">S</span>
+              <span class="preview-key preview-key--small">D</span>
+            </div>
+            <div class="mode-card-content">
+              <div class="mode-title-row"><h3>KeyMagnet</h3><span class="mode-symbol">⌘</span></div>
+              <p>Press the highlighted keys, build precision, and track your response time.</p>
+              <div class="mode-chips"><span>Key practice</span><span>Accuracy</span><span>Timed rounds</span></div>
+              <button id="startKeyMagnet" class="mode-action mode-action--violet" type="button">Play KeyMagnet <span aria-hidden="true">→</span></button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =============== GAME SCREEN =============== -->
+      <section id="gameScreen" class="screen game-screen" aria-labelledby="gameHeading" hidden>
+        <div class="game-header">
+          <div class="game-header-left">
+            <button id="backHome" class="back-button" type="button" aria-label="Back to home">←</button>
+            <div>
+              <div id="gameModeNumber" class="game-overline">MODE 01 / LETTER RECOGNITION</div>
+              <h1 id="gameHeading">Bubbles</h1>
+            </div>
+            <span id="gameLevel" class="game-level">EASY</span>
+          </div>
+          <div class="game-actions">
+            <button id="restartBtn" class="control-button" type="button">↻ Restart</button>
+            <button id="resetBtn" class="control-button control-button--ghost" type="button">Reset</button>
+          </div>
+        </div>
+
+        <!-- The four stat cards update during play. -->
+        <div class="stats-grid" aria-label="Live game statistics">
+          <div class="stat-card">
+            <span class="stat-label">SCORE</span>
+            <strong id="statScore" class="stat-value">0</strong>
+            <small id="scoreCaption">Keep it up!</small>
+          </div>
+          <div class="stat-card">
+            <span id="stat2Label" class="stat-label">MISSES</span>
+            <strong id="stat2Value" class="stat-value">0 / 8</strong>
+            <small id="stat2Caption">Until game over</small>
+          </div>
+          <div class="stat-card">
+            <span id="stat3Label" class="stat-label">CORRECT</span>
+            <strong id="stat3Value" class="stat-value">0</strong>
+            <small id="stat3Caption">Bubbles popped</small>
+          </div>
+          <div class="stat-card">
+            <span id="stat4Label" class="stat-label">TIME</span>
+            <strong id="stat4Value" class="stat-value">00:00</strong>
+            <small id="stat4Caption">Session elapsed</small>
+          </div>
+        </div>
+
+        <!-- Only one game panel is visible at a time. -->
+        <div id="arena" class="arena">
+          <div class="arena-toolbar">
+            <span class="arena-live"><span class="live-dot"></span><span id="arenaLabel">BUBBLE FIELD</span></span>
+            <span id="arenaTip" class="arena-tip">Type a letter to pop its bubble</span>
+            <span id="arenaProgressNote" class="arena-progress-note">SPEED LVL 1</span>
+          </div>
+
+          <!-- Bubbles board -->
+          <div id="bubblesPanel" class="bubbles-panel" hidden>
+            <div id="bubbleField" class="bubble-field" role="img" aria-label="Moving letter bubbles">
+              <div class="field-grid" aria-hidden="true"></div>
+              <div class="field-horizon" aria-hidden="true"><span>MISS LINE</span></div>
+              <div id="bubbleLayer" class="bubble-layer"></div>
+              <div id="popLayer" class="pop-layer" aria-hidden="true"></div>
+            </div>
+            <div class="field-bottom">
+              <span>Type the letters before they escape</span>
+              <span id="bubblesSpeedLabel">SPEED 40 PX/S</span>
+            </div>
+          </div>
+
+          <!-- KeyMagnet board -->
+          <div id="magnetPanel" class="magnet-panel" hidden>
+            <div class="magnet-info-line">
+              <span id="magnetSetLabel">HOME ROW · A S D F J K L</span>
+              <span id="magnetRoundLabel">ROUND 01 / 15</span>
+            </div>
+            <div class="magnet-progress"><div id="magnetProgressFill"></div></div>
+            <div class="magnet-target-area">
+              <div class="target-overline">PRESS THIS KEY</div>
+              <div id="magnetTarget" class="target-letter">A</div>
+              <div id="magnetTargetSubtitle" class="target-subtext">Find the highlighted key below</div>
+            </div>
+            <div class="magnet-timer-block">
+              <div class="magnet-timer-details">
+                <span id="magnetTimerCaption">No per-key time limit</span>
+                <strong id="magnetTimeRemaining">∞</strong>
+              </div>
+              <div class="magnet-time-track"><div id="magnetTimeFill"></div></div>
+            </div>
+          </div>
+
+          <div id="feedback" class="game-feedback" aria-live="polite">LET'S TYPE!</div>
+        </div>
+
+        <!-- Clickable keyboard for touch devices as well as desktop. -->
+        <section class="keyboard-section" aria-label="Interactive keyboard">
+          <div class="keyboard-header">
+            <div>
+              <span class="keyboard-heading">ON-SCREEN KEYBOARD</span>
+              <span class="keyboard-description">Use your keyboard or tap the keys below</span>
+            </div>
+            <span class="keyboard-status"><span class="status-indicator"></span> Ready</span>
+          </div>
+          <div id="virtualKeyboard" class="virtual-keyboard" role="group" aria-label="On-screen keys"></div>
+        </section>
+        <div class="game-footnote">TIP: <span id="gameFootTip">Match the letters before they float away.</span></div>
+      </section>
+
+      <!-- =============== RESULTS SCREEN =============== -->
+      <section id="resultsScreen" class="screen results-screen" aria-labelledby="resultsHeading" hidden>
+        <div class="results-card">
+          <div class="results-emblem" aria-hidden="true">★</div>
+          <span class="results-kicker">SESSION RESULTS</span>
+          <h1 id="resultsHeading">Nice work!</h1>
+          <p id="resultsSubtitle">Here is how you did.</p>
+          <div class="results-score">
+            <span>FINAL SCORE</span>
+            <strong id="resultsScore">0</strong>
+            <small id="resultsModeLabel">BUBBLES · EASY</small>
+          </div>
+          <div id="resultsStats" class="results-stats"></div>
+          <p id="resultsExplain" class="results-explain"></p>
+          <div class="results-buttons">
+            <button id="playAgainBtn" class="primary-button" type="button">↻ Play again</button>
+            <button id="resultsHomeBtn" class="secondary-button" type="button">← All game modes</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>TYPE ARENA · CSC336 WEB TECHNOLOGIES</span>
+      <span>Built with HTML, CSS and JavaScript</span>
+    </footer>
+  </div>
+
+  <!-- =============== INSTRUCTIONS DIALOG =============== -->
+  <dialog id="rulesDialog" class="rules-dialog" aria-labelledby="rulesHeading">
+    <div class="dialog-top">
+      <div><span class="section-kicker">INSTRUCTIONS</span><h2 id="rulesHeading">How to play</h2></div>
+      <button id="closeRules" class="dialog-close" type="button" aria-label="Close instructions">✕</button>
+    </div>
+    <div class="rule-block">
+      <span class="rule-number">01</span>
+      <div><strong>Bubbles</strong><p>Type the letters in the rising bubbles. Correct = +10 points.
+        Wrong keys lose points, and bubbles reaching the top count as misses. Speed increases every 10 pops.
+        The game ends at the miss limit.</p></div>
+    </div>
+    <div class="rule-block">
+      <span class="rule-number">02</span>
+      <div><strong>KeyMagnet</strong><p>Type the displayed target key to earn +10 points. Wrong keys are counted.
+        Easy uses home-row letters; Medium uses A–Z and a 5-second limit;
+        Hard adds numbers and a 3-second limit.</p></div>
+    </div>
+    <div class="rule-block">
+      <span class="rule-number">03</span>
+      <div><strong>Controls</strong><p>Select a difficulty on the home screen.
+        Restart starts the current mode again; Reset clears the game and returns home.
+        A physical keyboard or the on-screen keys can be used.</p></div>
+    </div>
+    <button id="gotItBtn" class="primary-button dialog-done" type="button">Got it</button>
+  </dialog>
+</body>
+</html>
